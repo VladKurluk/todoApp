@@ -94,10 +94,11 @@ function editTodoItem() {
 }
 
 /*
-* 8) Описываю ф-ию для события 
+* 8) Описываю ф-ию для события "удаления задчи"
 */
 function deleteTodoItem() {
-
+    const listItem = this.parentNode;
+    todoList.removeChild(listItem);
 }
 
 /*
@@ -113,4 +114,12 @@ const todoItems = document.querySelectorAll('.todo-item');
 */
 todoForm.addEventListener('submit', addTodoItem);
 
+/*
+* 9) Описываю ф-ию для манипуляции с уже имеющейся задачей.
+*/
+function main() {
+    todoForm.addEventListener('submit', addTodoItem);
+    todoItems.forEach(item => bindEvents(item));
+}
 
+main();
