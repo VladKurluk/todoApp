@@ -1,35 +1,34 @@
 /*
+* 10) Рефакторинг пункта 4. Описываю ф-ию для создания DOM-элементов с приминением паттерна "Фасад".
+*/
+function createElement(tag, props, ...children) { 
+    const element = document.createElement(tag);
+
+    Object.keys(props).forEach(key => element[key] = props[key]);
+
+    if (children.length > 0) {
+        children.forEach(child => {
+            if (typeof child === 'string') {
+                child = document.createTextNode(child);
+            }
+            element.appendChild(child);
+        });
+    }
+
+    return element;
+}
+
+/*
 * 4) Описываю функцию, которая создает DOM-элементы
+* 11) Рефакторинг
 */
 function createTodoItem(title) {
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'checkbox';
-
-    const label = document.createElement('label');
-    label.innerText = title;
-    label.className = 'title';
-
-    const editInput = document.createElement('input');
-    editInput.type = 'text';
-    editInput.className = 'textfield';
-
-    const editButton = document.createElement('button');
-    editButton.innerText = 'Изменить';
-    editButton.className = 'edit';
-
-    const deleteButton = document.createElement('button');
-    deleteButton.innerText = 'Удалить';
-    deleteButton.className = 'delete';
-
-    const listItem = document.createElement('li');
-    listItem.className = 'todo-item';
-
-    listItem.appendChild(checkbox);
-    listItem.appendChild(label);
-    listItem.appendChild(editInput);
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
+    const checkbox = createElement('input', { type: 'checkbox', className: 'checkbox' });
+    const label = createElement('label', { className: 'title' }, title);
+    const editInput = createElement('input', { type: 'text', className: 'textfield' });
+    const editButton = createElement('button', { className: 'edit' }, 'Изменить');
+    const deleteButton = createElement('button', { className: 'delete' }, 'Удалить');
+    const listItem = createElement('li', { className: 'todo-item' }, checkbox, label, editInput, editButton, deleteButton);
 
     //Подписка на события
     bindEvents(listItem);
